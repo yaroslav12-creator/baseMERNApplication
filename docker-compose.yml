@@ -1,14 +1,29 @@
 version: "3.9"
 services:
-  backend: 
-    build: ./backend
   frontend:
     build: ./client
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    links:
+      - backend
+  backend: 
+    build: ./backend
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: postgres123
+      POSTGRES_PASSWORD: 123postgres
+      POSTGRES_DB: mern-todo-app
+    depends_on:
+      - postgres
+    ports:
+      - "5000:5000"
   postgres:
     image: postgres:14.2-alpine3.15
+    restart: always
     environment:
-      POSTGRES_DB: "postgres"
-      POSTGRES_USER: "postgres123"
-      POSTGRES_PASSWORD: "123postgres"
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: mern-todo-app
+      POSTGRES_USER: postgres123 
+      POSTGRES_PASSWORD: 123postgres"
+    

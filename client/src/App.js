@@ -1,16 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import CreateTodo from "./components/create-todo.component";
-import EditTodo from "./components/edit-todo.component";
-import TodosList from "./components/todos-list.component";
+import {CreateTodo} from "./components/create-todo-component-func";
+import {EditTodo} from "./components/edit-todo-component-func";
+import {TodosList} from "./components/todos-list-component-func";
 
 import logo from "./logo.svg";
 
-class App extends Component {
-  render() {
+const App  = () => {
     return (
       <Router>
         <div className="container">
@@ -39,7 +38,6 @@ class App extends Component {
         </div>
       </Router>
     );
-  }
 }
 
 export default App;

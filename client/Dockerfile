@@ -1,13 +1,25 @@
-FROM node:latest
+FROM node:18.5.0 as build-stage
 
 WORKDIR /app
 
-EXPOSE 3000
-
 COPY package*.json ./
 
-RUN npm install 
+RUN npm install
 
 COPY . ./
 
-CMD ["npm", "run", "start"]
+RUN npm run build
+
+FROM nginx:1.23.0
+
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+
+COPY --from=build-stage /app/build/ .
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"] 
